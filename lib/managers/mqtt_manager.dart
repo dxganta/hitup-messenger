@@ -119,8 +119,8 @@ class MQTTManager {
           String myUid = SharedObjects.prefs.getString(Constants.sessionUid);
           if (parsedMsg["uid"] != myUid) {
             print("Profile Pic Changed For $chatId");
-            await DBManager.db
-                .updateProfilePicInDb(parsedMsg["profilePicUrl"], chatId);
+            await DBManager.db.updateProfilePicInContactsTable(
+                parsedMsg["profilePicUrl"], chatId);
             homeBloc.add(FetchHomeChatsEvent());
           }
         }
