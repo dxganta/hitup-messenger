@@ -54,7 +54,7 @@ class DBManager {
 
         // 3. for storing the last message to show in the home screen in the chat cards
         await db.execute(
-            "CREATE TABLE $chatTable ($phoneNumberColumn TEXT PRIMARY KEY,"
+            "CREATE TABLE $chatTable ($phoneNumberColumn TEXT PRIMARY KEY, $nameColumn TEXT,"
             "$chatIdColumn TEXT, $msgColumn TEXT, $msgTypeColumn TEXT, "
             "$timeColumn INTEGER)");
       },
@@ -76,7 +76,17 @@ class DBManager {
       String msgType, int currTime, int msgStatus) async {
     final Database db = await database;
 
-    // TODO: Implement
+    await db.insert(
+      messagesTable,
+      {
+        chatIdColumn: chatId,
+        msgColumn: newMsg,
+        msgTypeColumn: msgType,
+        timeColumn: currTime,
+        msgStatusColumn: msgStatus,
+      },
+      conflictAlgorithm: ConflictAlgorithm.ignore,
+    );
   }
 
   Future<ChatMessage> readMessageFromChatTable(String chatId) async {
@@ -101,7 +111,12 @@ class DBManager {
 
   Future<List<ChatMessage>> readAllMessagesfromMessagesTable(
       String chatId) async {
-    //TODO: Implement
+    final Database db = await database;
+
+    var res = await db
+        .query(messagesTable, where: "$chatIdColumn = ?", whereArgs: [chatId]);
+
+    return res.map((e) => ChatMessage.fromMap(e)).toList();
   }
 
 // get all conversations from chat table to show in the home page
@@ -147,7 +162,7 @@ class DBManager {
   Future<void> createRow(String phoneNum, String chatId, String contactName,
       String username, String photoUrl, int isContact) async {
     final Database db = await database;
-//TODO: Need to create row for both chatTable & contactsTable
+
     await db.insert(
       contactsTable,
       {
@@ -155,15 +170,21 @@ class DBManager {
         chatIdColumn: chatId,
         nameColumn: contactName,
         usernameColumn: username,
-        msgColumn: null,
-        msgTypeColumn: null,
-        timeColumn: null,
         photoUrlColumn: photoUrl,
         isContactColumn: isContact,
         blockStatusColumn: 1, // At first it will be unblocked ofcourse
       },
       conflictAlgorithm: ConflictAlgorithm.ignore,
     );
+
+    await db.insert(chatTable, {
+      phoneNumberColumn: phoneNum,
+      chatIdColumn: chatId,
+      nameColumn: contactName,
+      msgColumn: null,
+      msgTypeColumn: null,
+      timeColumn: null,
+    });
   }
 
   Future<void> deleteContact(String phoneNum) async {
@@ -229,8 +250,7 @@ class DBManager {
   }
 }
 
-//TODO: Change database structure in db_manager file. Need 2 databases now. one to store users. one to store messages
-//TODO: Change mqtt_manager. when message is sent update it to the db. also when new message is received update it to the db
-//TODO: Print the data and see if everything is working fine or not
 //TODO: Change user interface of chat_screen
-//TODO: Write logic in chat_screen
+//TODO: Write logic in chat_screen to show the messages
+//TODO: Then do the home screen chat cards
+//TODO: check all the credentials, new mqtt server, different firebase database

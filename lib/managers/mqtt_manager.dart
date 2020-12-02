@@ -111,12 +111,12 @@ class MQTTManager {
       print(msg);
       Map parsedMsg = json.decode(msg);
       final int currTime = DateTime.now().millisecondsSinceEpoch;
+      String myUid = SharedObjects.prefs.getString(Constants.sessionUid);
 
       print(
           "CHATTTTTIDDDD : $chatId,  MSGGGGGGGG : $parsedMsg, CUUUUURRRRRRRTIIIIIIME : $currTime");
       if (parsedMsg["type"] == "service") {
         if (parsedMsg["msg"] == Constants.profilePicChangeMsg) {
-          String myUid = SharedObjects.prefs.getString(Constants.sessionUid);
           if (parsedMsg["uid"] != myUid) {
             print("Profile Pic Changed For $chatId");
             await DBManager.db.updateProfilePicInContactsTable(
@@ -125,9 +125,25 @@ class MQTTManager {
           }
         }
       } else {
-        // save the message to local db to that chatId
-        await DBManager.db.updateMessageToDb(
-            chatId, parsedMsg["msg"], parsedMsg["type"], currTime);
+// save message to local db
+        if (parsedMsg["uid"] == myUid) {
+          // if uid of message is same as mine then that means
+          // I sent the message, so save it to db as sent message
+          await DBManager.db.addNewMessageToMessagesTable(
+              chatId,
+              parsedMsg["msg"],
+              parsedMsg["type"],
+              currTime,
+              1); // 1 bcox message is sent
+        } else {
+          // save the message to local db as received message
+          await DBManager.db.addNewMessageToMessagesTable(
+              chatId,
+              parsedMsg["msg"],
+              parsedMsg["type"],
+              currTime,
+              0); // 0 bcox message is received
+        }
 
         //also notify the bloc that a new message is received so that it
         // may read the last message from the local db

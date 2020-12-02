@@ -1,43 +1,43 @@
 part of 'chat_bloc.dart';
 
 abstract class ChatState extends Equatable {
-  final ChatMessage chatMessage;
+  final List<ChatMessage> chatMessages;
 
-  const ChatState(this.chatMessage);
+  const ChatState(this.chatMessages);
 }
 
 class ChatInitial extends ChatState {
-  ChatInitial() : super(ChatMessage(msg: ".", time: null, msgType: 'text'));
+  ChatInitial() : super([]);
   @override
   List<Object> get props => [];
 }
 
 class ReceivedMessageState extends ChatState {
-  final ChatMessage chatMessage;
+  final List<ChatMessage> chatMessages;
 
-  ReceivedMessageState(this.chatMessage) : super(chatMessage);
+  ReceivedMessageState(this.chatMessages) : super(chatMessages);
 
   @override
-  List<Object> get props => [chatMessage];
+  List<Object> get props => [chatMessages];
 }
 
 class InitialMessagesLoadedState extends ChatState {
-  final ChatMessage chatMessage;
+  final List<ChatMessage> chatMessages;
 
-  InitialMessagesLoadedState(this.chatMessage) : super(chatMessage);
+  InitialMessagesLoadedState(this.chatMessages) : super(chatMessages);
 
   @override
-  List<Object> get props => [chatMessage];
+  List<Object> get props => [chatMessages];
 }
 
-class BlockedUserState extends ChatState{
-  BlockedUserState():super(ChatMessage(msg: ".", time: null, msgType: 'text'));
+class BlockedUserState extends ChatState {
+  BlockedUserState() : super([]);
   @override
   List<Object> get props => [];
 }
 
-class UnblockedUserState extends ChatState{
-  UnblockedUserState():super(ChatMessage(msg:".", time: null, msgType: 'text'));
+class UnblockedUserState extends ChatState {
+  UnblockedUserState() : super([]);
 
   @override
   List<Object> get props => [];

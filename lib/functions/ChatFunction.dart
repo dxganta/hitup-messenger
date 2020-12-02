@@ -73,8 +73,8 @@ class ChatFunction extends BaseChatFunction {
   }
 
   @override
-  Future<ChatMessage> getMsgFromDb(String chatId) async {
-    return await DBManager.db.readMessageFromDb(chatId);
+  Future<List<ChatMessage>> getAllMsgsFromMessagesTable(String chatId) async {
+    return await DBManager.db.readAllMessagesfromMessagesTable(chatId);
   }
 
   // 2. compress file and get file.

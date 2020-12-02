@@ -33,7 +33,7 @@ abstract class BaseChatFunction extends BaseFunction {
   void sendMessageToServer(BuildContext context, String msg, String chatId);
   void sendImageToServer(BuildContext context, File imageFile, String chatId);
   void sendServiceMsgToServer(BuildContext context, String msg, String chatId);
-  Future<ChatMessage> getMsgFromDb(String chatId);
+  Future<List<ChatMessage>> getAllMsgsFromMessagesTable(String chatId);
   void blockUser(BuildContext context, String chatId);
   void unBlockUser(BuildContext context, String chatId);
 }

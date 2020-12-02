@@ -37,11 +37,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Stream<HomeState> mapFetchHomeChatsEventToState() async* {
     List<Conversation> conversations = [];
-    List<Map<dynamic, dynamic>> dbData = await DBManager.db.getAllMessages();
+    //TODO: Implement
+    // List<Map<dynamic, dynamic>> dbData = await DBManager.db.getAllMessages();
 
-    dbData.forEach((dbMap) {
-      conversations.add(Conversation.fromMap(dbMap));
-    });
+    // dbData.forEach((dbMap) {
+    //   conversations.add(Conversation.fromMap(dbMap));
+    // });
 
     conversations.sort((b, a) => a.time.compareTo(b.time));
 

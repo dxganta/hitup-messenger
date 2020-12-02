@@ -28,12 +28,18 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           event.context, event.imageFile, event.chatId);
     }
     if (event is ReceivedMessageEvent) {
-      ChatMessage lastChatMsg = await chatFunction.getMsgFromDb(event.chatId);
-      yield (ReceivedMessageState(lastChatMsg));
+      List<ChatMessage> allMessages =
+          await chatFunction.getAllMsgsFromMessagesTable(event.chatId);
+
+      allMessages.forEach((element) {
+        print(element.toString());
+      });
+      yield (ReceivedMessageState(allMessages));
     }
     if (event is LoadInitialMessagesEvent) {
-      ChatMessage lastChatMsg = await chatFunction.getMsgFromDb(event.chatId);
-      yield (InitialMessagesLoadedState(lastChatMsg));
+      List<ChatMessage> lastChatMsgs =
+          await chatFunction.getAllMsgsFromMessagesTable(event.chatId);
+      yield (InitialMessagesLoadedState(lastChatMsgs));
     }
     if (event is BlockUserEvent) {
       chatFunction.blockUser(event.context, event.chatId);
