@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coocoo/NewScreens/friend_profile_screen.dart';
 import 'package:coocoo/blocs/chats/chat_bloc.dart';
+import 'package:coocoo/config/Constants.dart';
 import 'package:coocoo/constants.dart';
 import 'package:coocoo/functions/UserDataFunction.dart';
+import 'package:coocoo/models/ChatMessage.dart';
 import 'package:coocoo/models/MyContact.dart';
 import 'package:coocoo/stateProviders/mqtt_state.dart';
 import 'package:coocoo/stateProviders/profilePicUrlState.dart';
@@ -11,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_emoji/flutter_emoji.dart' as emj;
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -25,6 +28,7 @@ class _ChatScreenState extends State<ChatScreen> {
   TextEditingController chatTextController = TextEditingController();
   ChatBloc chatBloc;
   UserDataFunction userDataFunction = UserDataFunction();
+  List<ChatMessage> allMessages = [];
 
   Widget _buildSendButton(double algo) {
     return Expanded(
@@ -141,6 +145,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double algo = screenWidth / perfectWidth;
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         titleSpacing: 0.0,
         automaticallyImplyLeading: false,
@@ -196,9 +201,26 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            FlatButton(
-              child: Text("GET MSGS"),
-              onPressed: () {},
+            Expanded(
+              child: BlocListener<ChatBloc, ChatState>(
+                listener: (context, state) {
+                  if (state is ReceivedMessageState) {
+                    setState(() {
+                      allMessages = state.chatMessages;
+                    });
+                  }
+                  if (state is InitialMessagesLoadedState) {
+                    setState(() {
+                      allMessages = state.chatMessages;
+                    });
+                  }
+                },
+                child: ListView.builder(
+                    itemCount: allMessages.length,
+                    itemBuilder: (context, index) {
+                      return ChatItemWidget(allMessages[index]);
+                    }),
+              ),
             ),
             Row(
               children: [
@@ -210,5 +232,83 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       ),
     );
+  }
+}
+
+class ChatItemWidget extends StatelessWidget {
+  final ChatMessage message;
+
+  ChatItemWidget(this.message);
+
+  final Color selfMessageColor = Colors.white;
+  final Color otherMessageColor = Colors.black;
+
+  final Color selfMessageBackgroundColor = Constants.textStuffColor;
+  final Color otherMessageBackgroundColor = Colors.white;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          buildMessageContainer(message.isSelf, message.msg, context),
+          buildTimeStamp(context, message.isSelf, message.time.toString())
+        ],
+      ),
+    );
+  }
+
+  Row buildMessageContainer(bool isSelf, String msgBody, BuildContext context) {
+    double lrEdgeInsets = 15.0;
+    double tbEdgeInsets = 10.0;
+
+    return Row(
+      children: <Widget>[
+        Container(
+          child: Text(
+            msgBody,
+            style:
+                TextStyle(color: isSelf ? selfMessageColor : otherMessageColor),
+          ),
+          padding: EdgeInsets.fromLTRB(
+              lrEdgeInsets, tbEdgeInsets, lrEdgeInsets, tbEdgeInsets),
+          constraints: BoxConstraints(maxWidth: 400.0),
+          decoration: BoxDecoration(
+              color: isSelf
+                  ? selfMessageBackgroundColor
+                  : otherMessageBackgroundColor,
+              borderRadius: BorderRadius.circular(8.0)),
+          margin: EdgeInsets.only(
+              right: isSelf ? 10.0 : 0, left: isSelf ? 0 : 10.0),
+        )
+      ],
+      mainAxisAlignment: isSelf
+          ? MainAxisAlignment.end
+          : MainAxisAlignment.start, // aligns the chatitem to right end
+    );
+  }
+
+  Row buildTimeStamp(BuildContext context, bool isSelf, String timeStamp) {
+    final currTime = DateFormat()
+        .add_y()
+        .add_MMMd()
+        .add_jm()
+        .format(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp)));
+    return Row(
+        mainAxisAlignment:
+            isSelf ? MainAxisAlignment.end : MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Text(
+              currTime,
+              style: Theme.of(context).textTheme.caption,
+            ),
+            margin: EdgeInsets.only(
+                left: isSelf ? 5.0 : 0.0,
+                right: isSelf ? 0.0 : 5.0,
+                top: 5.0,
+                bottom: 5.0),
+          )
+        ]);
   }
 }

@@ -2,10 +2,11 @@ class ChatMessage {
   final String msg;
   final int time;
   final String msgType;
-  final int msgStatus;
+  // final int msgStatus;
   final String chatId;
+  final bool isSelf;
 
-  ChatMessage({this.msg, this.time, this.msgType, this.chatId, this.msgStatus});
+  ChatMessage({this.msg, this.time, this.msgType, this.chatId, this.isSelf});
 
   factory ChatMessage.fromMap(Map map) {
     return ChatMessage(
@@ -13,11 +14,11 @@ class ChatMessage {
       time: map["time"],
       msgType: map["msgType"],
       chatId: map["chatId"],
-      msgStatus: map["msgStatus"],
+      isSelf: map["msgStatus"] == 1 ? true : false,
     );
   }
 
   @override
   String toString() => "msg : $msg, time : $time, "
-      "msgType : $msgType, chatId : $chatId, msgStatus: $msgStatus";
+      "msgType : $msgType, chatId : $chatId, isSelf: $isSelf";
 }
