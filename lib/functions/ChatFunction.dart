@@ -67,6 +67,7 @@ class ChatFunction extends BaseChatFunction {
     if (_manager == null) {
       _manager = context.read<MQTTState>().manager;
     }
+    print("calling send message to server");
     Map msgMap = {"msg": "$msg", "type": "text", "uid": "$myUid"};
     String msgToSend = json.encode(msgMap);
     _manager.publish(msgToSend, chatId);

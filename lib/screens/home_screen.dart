@@ -100,9 +100,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    // if (state == AppLifecycleState.paused) {
-    //   homeBloc.add(DisconnectEvent());
-    // }
+    if (state == AppLifecycleState.paused) {
+      homeBloc.add(DisconnectEvent());
+    }
     if (state == AppLifecycleState.resumed) {
       homeBloc.add(ConnectToServerEvent(context));
     }

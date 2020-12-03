@@ -30,10 +30,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     if (event is ReceivedMessageEvent) {
       List<ChatMessage> allMessages =
           await chatFunction.getAllMsgsFromMessagesTable(event.chatId);
-
-      allMessages.forEach((element) {
-        print(element.toString());
-      });
       yield (ReceivedMessageState(allMessages));
     }
     if (event is LoadInitialMessagesEvent) {

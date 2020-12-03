@@ -250,7 +250,7 @@ class DBManager {
   }
 }
 
-//TODO: Change user interface of chat_screen
-//TODO: Write logic in chat_screen to show the messages
+//TODO: Sending images frontend
+//TODO: Handle messages scrolling bug
 //TODO: Then do the home screen chat cards
 //TODO: check all the credentials, new mqtt server, different firebase database

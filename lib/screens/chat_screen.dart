@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coocoo/NewScreens/friend_profile_screen.dart';
 import 'package:coocoo/blocs/chats/chat_bloc.dart';
@@ -9,6 +11,7 @@ import 'package:coocoo/models/MyContact.dart';
 import 'package:coocoo/stateProviders/mqtt_state.dart';
 import 'package:coocoo/stateProviders/profilePicUrlState.dart';
 import 'package:coocoo/widgets/ImageFullScreenWidget.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_emoji/flutter_emoji.dart' as emj;
@@ -29,11 +32,13 @@ class _ChatScreenState extends State<ChatScreen> {
   ChatBloc chatBloc;
   UserDataFunction userDataFunction = UserDataFunction();
   List<ChatMessage> allMessages = [];
+  ScrollController _scrollController;
 
   Widget _buildSendButton(double algo) {
     return Expanded(
       child: InkWell(
         onTap: () {
+          print("Calinng send button");
           String tempChatId = widget.toContact.chatId;
           String msgToSend = parser.unemojify(chatTextController.text);
 
@@ -88,6 +93,16 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
               padding: EdgeInsets.symmetric(vertical: 14, horizontal: 18),
               child: TextField(
+                onTap: () {
+                  // scroll to the bottom of the list when keyboard appears
+                  Timer(
+                      Duration(milliseconds: 200),
+                      () => _scrollController.animateTo(
+                          _scrollController.position.maxScrollExtent,
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.easeIn));
+                },
+                focusNode: FocusNode(),
                 cursorColor: Colors.blueGrey,
                 controller: chatTextController,
                 style: TextStyle(
@@ -132,11 +147,13 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
     chatBloc = BlocProvider.of<ChatBloc>(context);
     chatBloc.add(LoadInitialMessagesEvent(widget.toContact.chatId));
+    _scrollController = ScrollController();
   }
 
   @override
   void dispose() {
     chatTextController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -201,7 +218,7 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
+            Flexible(
               child: BlocListener<ChatBloc, ChatState>(
                 listener: (context, state) {
                   if (state is ReceivedMessageState) {
@@ -214,12 +231,25 @@ class _ChatScreenState extends State<ChatScreen> {
                       allMessages = state.chatMessages;
                     });
                   }
+
+                  // jump to the bottom of the screen when a new message arrives
+                  // also using a timer because
+                  Timer(
+                      Duration(milliseconds: 600),
+                      () => _scrollController.animateTo(
+                          _scrollController.position.maxScrollExtent,
+                          duration: Duration(milliseconds: 200),
+                          curve: Curves.easeIn));
                 },
-                child: ListView.builder(
-                    itemCount: allMessages.length,
-                    itemBuilder: (context, index) {
-                      return ChatItemWidget(allMessages[index]);
-                    }),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: algo * 8.0),
+                  child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: allMessages.length,
+                      itemBuilder: (context, index) {
+                        return ChatItemWidget(allMessages[index]);
+                      }),
+                ),
               ),
             ),
             Row(

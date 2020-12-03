@@ -129,6 +129,7 @@ class MQTTManager {
         if (parsedMsg["uid"] == myUid) {
           // if uid of message is same as mine then that means
           // I sent the message, so save it to db as sent message
+          print("seetting messages to local db 1");
           await DBManager.db.addNewMessageToMessagesTable(
               chatId,
               parsedMsg["msg"],
@@ -136,6 +137,7 @@ class MQTTManager {
               currTime,
               1); // 1 bcox message is sent
         } else {
+          print("seetting messages to local db 0");
           // save the message to local db as received message
           await DBManager.db.addNewMessageToMessagesTable(
               chatId,
@@ -148,10 +150,6 @@ class MQTTManager {
         //also notify the bloc that a new message is received so that it
         // may read the last message from the local db
         chatBloc.add(ReceivedMessageEvent(chatId));
-
-        // set the last msg sender & last Msg
-        context.read<MQTTState>().setLastSender(chatId, parsedMsg["uid"]);
-        context.read<MQTTState>().setLastMsg(chatId, parsedMsg["msg"]);
 
         // fetching the chatcards for the homePage
         homeBloc.add(FetchHomeChatsEvent());
