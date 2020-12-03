@@ -251,6 +251,5 @@ class DBManager {
 }
 
 //TODO: Sending images frontend
-//TODO: Handle messages scrolling bug
 //TODO: Then do the home screen chat cards
 //TODO: check all the credentials, new mqtt server, different firebase database
