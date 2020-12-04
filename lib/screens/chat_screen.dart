@@ -216,6 +216,20 @@ class _ChatScreenState extends State<ChatScreen> {
               size: 30.0,
             ),
           ),
+          SizedBox(width: 5.0),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          FriendProfileScreen(widget.toContact)));
+            },
+            child: Icon(
+              Icons.more_vert_sharp,
+              size: 30.0,
+            ),
+          ),
           SizedBox(width: algo * 15.0),
         ],
       ),
@@ -276,7 +290,7 @@ class _ChatScreenState extends State<ChatScreen> {
       File tempFile = File(pickedFile.path);
       chatBloc.add(SendImageEvent(context, tempFile, widget.toContact.chatId));
       GradientSnackBar.showMessage(
-          context, "Sending Your Beautiful Image...", 4);
+          context, "Sending Your Beautiful Image...", 2);
       userDataFunction.sendNotification(
         toUid: widget.toContact.phoneNumber,
         title: "You have New Messages",

@@ -25,9 +25,30 @@ class ImageFullScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.black,
-      child: _buildImage(),
+    return Stack(
+      children: [
+        Positioned(
+          left: 12.0,
+          top: 10.0,
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+              size: 40.0,
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.center,
+          child: Container(
+            color: Colors.black,
+            child: _buildImage(),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -113,14 +113,12 @@ class MQTTManager {
       final int currTime = DateTime.now().millisecondsSinceEpoch;
       String myUid = SharedObjects.prefs.getString(Constants.sessionUid);
 
-      print(
-          "CHATTTTTIDDDD : $chatId,  MSGGGGGGGG : $parsedMsg, CUUUUURRRRRRRTIIIIIIME : $currTime");
       if (parsedMsg["type"] == "service") {
         // mqtt message if any of my contacts changed his/her profile picture
         if (parsedMsg["msg"] == Constants.profilePicChangeMsg) {
           if (parsedMsg["uid"] != myUid) {
             print("Profile Pic Changed For $chatId");
-            await DBManager.db.updateProfilePicInContactsTable(
+            await DBManager.db.updateProfilePicInChatsTable(
                 parsedMsg["profilePicUrl"], chatId);
             homeBloc.add(FetchHomeChatsEvent());
           }
@@ -139,6 +137,7 @@ class MQTTManager {
               parsedMsg["type"],
               currTime,
               1); // 1 bcox message is sent
+
         } else {
           print("seetting messages to local db 0");
           // save the message to local db as received message
@@ -149,6 +148,13 @@ class MQTTManager {
               currTime,
               0); // 0 bcox message is received
         }
+
+        DBManager.db.updateMessageToChatTable(
+          chatId,
+          parsedMsg["msg"],
+          parsedMsg["type"],
+          currTime,
+        );
 
         //also notify the bloc that a new message is received so that it
         // may read the last message from the local db

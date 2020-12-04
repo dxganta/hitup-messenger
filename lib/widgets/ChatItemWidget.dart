@@ -31,7 +31,7 @@ class ChatItemWidget extends StatelessWidget {
     );
   }
 
-  Widget buildMessage(
+  Widget buildMessageBody(
       String msgBody, String msgType, bool isSelf, BuildContext context) {
     if (msgType == 'text' || msgType == null) {
       return Text(
@@ -79,9 +79,7 @@ class ChatItemWidget extends StatelessWidget {
           ),
         );
       } catch (e) {
-        return Image(
-          image: AssetImage('images/user.png'),
-        );
+        Container();
       }
     }
   }
@@ -94,7 +92,7 @@ class ChatItemWidget extends StatelessWidget {
     return Row(
       children: <Widget>[
         Container(
-          child: buildMessage(msgBody, msgType, isSelf, context),
+          child: buildMessageBody(msgBody, msgType, isSelf, context),
           padding: EdgeInsets.fromLTRB(
               lrEdgeInsets, tbEdgeInsets, lrEdgeInsets, tbEdgeInsets),
           constraints: BoxConstraints(maxWidth: 300.0),

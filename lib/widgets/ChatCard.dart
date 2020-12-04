@@ -19,19 +19,10 @@ class ChatCard extends StatelessWidget {
 
   Widget buildMessage(String msgType, TextStyle chatTextStyle) {
     if (msgType == 'text') {
-      return conversation.lastMessage != 'black_heart'
-          ? Text(
-              parser.emojify(conversation.lastMessage),
-              style: chatTextStyle,
-            )
-          : Align(
-              alignment: Alignment.centerLeft,
-              child: Icon(
-                Icons.favorite,
-                size: 30.0,
-                color: Colors.black,
-              ),
-            );
+      return Text(
+        parser.emojify(conversation.lastMessage),
+        style: chatTextStyle,
+      );
     } else {
       return Align(
         alignment: Alignment.centerLeft,

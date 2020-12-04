@@ -9,9 +9,9 @@ class DBManager {
 
   Database _database;
 
-  final String contactsTable = "Contacts";
+  // final String contactsTable = "Contacts";
   final String messagesTable = "Messages";
-  final String chatTable = "Chats";
+  final String chatsTable = "Chats";
 
   final String phoneNumberColumn = "phoneNumber";
   final String chatIdColumn = "chatId";
@@ -42,10 +42,10 @@ class DBManager {
       onCreate: (Database db, int version) async {
         // we need 3 tables
         // 1. for storing users data
-        await db.execute(
-            "CREATE TABLE $contactsTable ($phoneNumberColumn TEXT PRIMARY KEY, $chatIdColumn TEXT, "
-            "$nameColumn TEXT, $usernameColumn TEXT,"
-            "$photoUrlColumn TEXT, $isContactColumn INTEGER, $blockStatusColumn INTEGER)");
+        // await db.execute(
+        //     "CREATE TABLE $contactsTable ($phoneNumberColumn TEXT PRIMARY KEY, $chatIdColumn TEXT, "
+        //     "$nameColumn TEXT, $usernameColumn TEXT,"
+        //     "$photoUrlColumn TEXT, $isContactColumn INTEGER, $blockStatusColumn INTEGER)");
 
         // 2. for storing the messages for the chat screen
         await db.execute("CREATE TABLE $messagesTable ("
@@ -54,20 +54,21 @@ class DBManager {
 
         // 3. for storing the last message to show in the home screen in the chat cards
         await db.execute(
-            "CREATE TABLE $chatTable ($phoneNumberColumn TEXT PRIMARY KEY, $nameColumn TEXT,"
-            "$chatIdColumn TEXT, $msgColumn TEXT, $msgTypeColumn TEXT, "
+            "CREATE TABLE $chatsTable ($phoneNumberColumn TEXT PRIMARY KEY, $nameColumn TEXT,"
+            "$chatIdColumn TEXT, $usernameColumn TEXT, $photoUrlColumn TEXT, $isContactColumn INTEGER, $blockStatusColumn INTEGER,"
+            " $msgColumn TEXT, $msgTypeColumn TEXT, "
             "$timeColumn INTEGER)");
       },
     );
   }
 
-  Future<void> updateMessageToChatTable(String chatId, String newMsg,
-      String msgType, int currTime, int msgStatus) async {
+  Future<void> updateMessageToChatTable(
+      String chatId, String newMsg, String msgType, int currTime) async {
     final Database db = await database;
 
     int numOfUpdates = await db.rawUpdate(
-        "UPDATE $chatTable SET $msgColumn = ?, $timeColumn = ?, $msgTypeColumn = ?, $msgStatusColumn = ? WHERE $chatIdColumn = ?",
-        [newMsg, currTime, msgType, msgStatus, chatId]);
+        "UPDATE $chatsTable SET $msgColumn = ?, $timeColumn = ?, $msgTypeColumn = ? WHERE $chatIdColumn = ?",
+        [newMsg, currTime, msgType, chatId]);
 
     print("$numOfUpdates rows were changed in Chats Table");
   }
@@ -92,7 +93,7 @@ class DBManager {
   Future<ChatMessage> readMessageFromChatTable(String chatId) async {
     final Database db = await database;
 
-    List<Map<String, dynamic>> res = await db.query(chatTable,
+    List<Map<String, dynamic>> res = await db.query(chatsTable,
         columns: [
           msgColumn,
           msgTypeColumn,
@@ -123,18 +124,18 @@ class DBManager {
   Future<List<Map<dynamic, dynamic>>> getAlConversationsFromChatTable() async {
     final Database db = await database;
 
-    var res = await db.query(chatTable, where: "$msgColumn IS NOT NULL");
+    var res = await db.query(chatsTable, where: "$msgColumn IS NOT NULL");
     List<Map> output = List<Map>.from(res);
 
     return output;
   }
 
-  Future<void> updateProfilePicInContactsTable(
+  Future<void> updateProfilePicInChatsTable(
       String photoUrl, String chatId) async {
     final Database db = await database;
 
     await db.rawUpdate(
-      "UPDATE $contactsTable SET $photoUrlColumn = ? WHERE $chatIdColumn = ?",
+      "UPDATE $chatsTable SET $photoUrlColumn = ? WHERE $chatIdColumn = ?",
       [photoUrl, chatId],
     );
   }
@@ -143,7 +144,7 @@ class DBManager {
     final Database db = await database;
 
     var res = await db.query(
-      contactsTable,
+      chatsTable,
       columns: [
         phoneNumberColumn,
         nameColumn,
@@ -164,7 +165,7 @@ class DBManager {
     final Database db = await database;
 
     await db.insert(
-      contactsTable,
+      chatsTable,
       {
         phoneNumberColumn: phoneNum,
         chatIdColumn: chatId,
@@ -173,24 +174,18 @@ class DBManager {
         photoUrlColumn: photoUrl,
         isContactColumn: isContact,
         blockStatusColumn: 1, // At first it will be unblocked ofcourse
+        msgColumn: null,
+        msgTypeColumn: null,
+        timeColumn: null,
       },
       conflictAlgorithm: ConflictAlgorithm.ignore,
     );
-
-    await db.insert(chatTable, {
-      phoneNumberColumn: phoneNum,
-      chatIdColumn: chatId,
-      nameColumn: contactName,
-      msgColumn: null,
-      msgTypeColumn: null,
-      timeColumn: null,
-    });
   }
 
   Future<void> deleteContact(String phoneNum) async {
     final Database db = await database;
 
-    await db.delete(contactsTable,
+    await db.delete(chatsTable,
         where: "$phoneNumberColumn = ?", whereArgs: [phoneNum]);
   }
 
@@ -198,7 +193,7 @@ class DBManager {
     final Database db = await database;
 
     var result = await db.rawQuery(
-      "SELECT COUNT(1) FROM $contactsTable WHERE $phoneNumberColumn = ? LIMIT 1",
+      "SELECT COUNT(1) FROM $chatsTable WHERE $phoneNumberColumn = ? LIMIT 1",
       [phoneNumber],
     );
     return result[0]["COUNT(1)"] == 1 ? true : false;
@@ -207,7 +202,7 @@ class DBManager {
   Future<bool> checkIfUsernameExistsInDb(String username) async {
     final Database db = await database;
     var result = await db.rawQuery(
-      "SELECT COUNT(1) FROM $contactsTable WHERE $usernameColumn = ? LIMIT 1",
+      "SELECT COUNT(1) FROM $chatsTable WHERE $usernameColumn = ? LIMIT 1",
       [username],
     );
     return result[0]["COUNT(1)"] == 1 ? true : false;
@@ -216,14 +211,14 @@ class DBManager {
   Future<void> deleteTable() async {
     final Database db = await database;
 
-    await db.delete(contactsTable, where: '1');
+    await db.delete(chatsTable, where: '1');
   }
 
 // check if contact is blocked or unblocked
   Future<bool> isBlocked(String chatId) async {
     final Database db = await database;
 
-    var res = await db.query(contactsTable,
+    var res = await db.query(chatsTable,
         columns: [blockStatusColumn],
         where: '$chatIdColumn = ?',
         whereArgs: [chatId]);
@@ -235,7 +230,7 @@ class DBManager {
     final Database db = await database;
 
     await db.rawUpdate(
-      "UPDATE $contactsTable SET $blockStatusColumn = ? WHERE $chatIdColumn = ?",
+      "UPDATE $chatsTable SET $blockStatusColumn = ? WHERE $chatIdColumn = ?",
       [newStatus, chatId],
     );
   }
@@ -244,13 +239,11 @@ class DBManager {
     final Database db = await database;
 
     await db.rawUpdate(
-      "UPDATE $contactsTable SET $nameColumn = ? WHERE $chatIdColumn = ?",
+      "UPDATE $chatsTable SET $nameColumn = ? WHERE $chatIdColumn = ?",
       [newName, chatId],
     );
   }
 }
 
-//TODO: Sending images frontend
-//TODO: Then do the home screen chat cards
 //TODO: check all the credentials, new mqtt server, different firebase database,
 // onesignal credentials
