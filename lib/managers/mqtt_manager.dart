@@ -116,6 +116,7 @@ class MQTTManager {
       print(
           "CHATTTTTIDDDD : $chatId,  MSGGGGGGGG : $parsedMsg, CUUUUURRRRRRRTIIIIIIME : $currTime");
       if (parsedMsg["type"] == "service") {
+        // mqtt message if any of my contacts changed his/her profile picture
         if (parsedMsg["msg"] == Constants.profilePicChangeMsg) {
           if (parsedMsg["uid"] != myUid) {
             print("Profile Pic Changed For $chatId");
@@ -126,6 +127,8 @@ class MQTTManager {
         }
       } else {
 // save message to local db
+        print(parsedMsg["uid"]);
+        print(myUid);
         if (parsedMsg["uid"] == myUid) {
           // if uid of message is same as mine then that means
           // I sent the message, so save it to db as sent message

@@ -99,8 +99,7 @@ class ChatCard extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => ImageFullScreen(
-                          conversation.photoUrl,
-                          tag: "dash$ind")));
+                          url: conversation.photoUrl, tag: "dash$ind")));
             },
             child: Hero(
               tag: "dash$ind",

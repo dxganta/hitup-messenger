@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coocoo/NewScreens/friend_profile_screen.dart';
@@ -11,12 +12,14 @@ import 'package:coocoo/models/MyContact.dart';
 import 'package:coocoo/stateProviders/mqtt_state.dart';
 import 'package:coocoo/stateProviders/profilePicUrlState.dart';
 import 'package:coocoo/widgets/ChatItemWidget.dart';
+import 'package:coocoo/widgets/GradientSnackBar.dart';
 import 'package:coocoo/widgets/ImageFullScreenWidget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_emoji/flutter_emoji.dart' as emj;
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -34,6 +37,7 @@ class _ChatScreenState extends State<ChatScreen> {
   UserDataFunction userDataFunction = UserDataFunction();
   List<ChatMessage> allMessages = [];
   ScrollController _scrollController;
+  final picker = ImagePicker();
 
   Widget _buildSendButton(double algo) {
     return Expanded(
@@ -128,7 +132,7 @@ class _ChatScreenState extends State<ChatScreen> {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    ImageFullScreen(myProfileUrl, tag: "myProfile")));
+                    ImageFullScreen(url: myProfileUrl, tag: "myProfile")));
       },
       child: Hero(
         tag: 'myProfile',
@@ -204,7 +208,7 @@ class _ChatScreenState extends State<ChatScreen> {
         actions: <Widget>[
           GestureDetector(
             onTap: () {
-              // pickImage();
+              pickImage();
             },
             child: Icon(
               Icons.attach_file,
@@ -264,5 +268,20 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       ),
     );
+  }
+
+  Future pickImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      File tempFile = File(pickedFile.path);
+      chatBloc.add(SendImageEvent(context, tempFile, widget.toContact.chatId));
+      GradientSnackBar.showMessage(
+          context, "Sending Your Beautiful Image...", 4);
+      userDataFunction.sendNotification(
+        toUid: widget.toContact.phoneNumber,
+        title: "You have New Messages",
+        content: "Click To View",
+      );
+    }
   }
 }

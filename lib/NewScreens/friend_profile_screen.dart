@@ -100,7 +100,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            ImageFullScreen(widget.friend.photoUrl)));
+                            ImageFullScreen(url: widget.friend.photoUrl)));
               },
               child: CircleAvatar(
                 radius: algo * 120.0,

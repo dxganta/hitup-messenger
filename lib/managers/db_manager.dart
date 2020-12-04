@@ -252,4 +252,5 @@ class DBManager {
 
 //TODO: Sending images frontend
 //TODO: Then do the home screen chat cards
-//TODO: check all the credentials, new mqtt server, different firebase database
+//TODO: check all the credentials, new mqtt server, different firebase database,
+// onesignal credentials

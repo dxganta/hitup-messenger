@@ -98,13 +98,15 @@ class ChatFunction extends BaseChatFunction {
     if (_manager == null) {
       _manager = context.read<MQTTState>().manager;
     }
+
+    // compress the image & make it smaller in size
     File newFile = await testCompressAndGetFile(imageFile);
 
+    // change the image to bytes format
     String base64Image = base64Encode(newFile.readAsBytesSync());
-    String msgToSend = '{"msg" : "$base64Image", "type" : "image"}';
+    String msgToSend =
+        '{"msg" : "$base64Image", "type" : "image", "uid" : "$myUid"}';
 
-    print("BASE64ENCODED IMAGE LENGTH : ${base64Image.length}");
-    print(base64Image);
     while (!_manager.getConnectionStatus()) {
       print("NOT CONNECTED BEFORE PUBLISHING");
       await Future.delayed(Duration(seconds: 1));

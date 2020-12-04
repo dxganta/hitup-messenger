@@ -27,7 +27,8 @@ class AddFriendCard extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ImageFullScreen(friend.photoUrl)));
+                    builder: (context) =>
+                        ImageFullScreen(url: friend.photoUrl)));
           },
           child: CircleAvatar(
             backgroundColor: Colors.white,
