@@ -6,9 +6,11 @@ import 'package:coocoo/widgets/ImageFullScreenWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_emoji/flutter_emoji.dart' as emj;
 
 class ChatItemWidget extends StatelessWidget {
   final ChatMessage message;
+  final parser = emj.EmojiParser();
 
   ChatItemWidget(this.message);
 
@@ -35,7 +37,7 @@ class ChatItemWidget extends StatelessWidget {
       String msgBody, String msgType, bool isSelf, BuildContext context) {
     if (msgType == 'text' || msgType == null) {
       return Text(
-        msgBody,
+        parser.emojify("${msgBody ?? ''}"),
         style: TextStyle(
           color: isSelf ? selfMessageColor : otherMessageColor,
           fontSize: 15.0,
@@ -79,7 +81,7 @@ class ChatItemWidget extends StatelessWidget {
           ),
         );
       } catch (e) {
-        Container();
+        return Container();
       }
     }
   }

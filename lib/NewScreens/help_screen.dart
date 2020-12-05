@@ -27,19 +27,19 @@ class HelpScreen extends StatelessWidget {
               children: [
                 ContactMeCard(
                   iconData: FontAwesomeIcons.envelope,
-                  title: 'hitup.messenger@gmail.com',
+                  title: 'digantakalita.ai@gmail.com',
                 ),
                 ContactMeCard(
                   iconData: FontAwesomeIcons.instagram,
-                  title: '@hitup_messenger',
+                  title: '@digantakalita_real',
                 ),
                 ContactMeCard(
                   iconData: FontAwesomeIcons.twitter,
-                  title: '@HitupMessenger',
+                  title: '@realdiganta',
                 ),
                 ContactMeCard(
                   iconData: FontAwesomeIcons.whatsapp,
-                  title: '+91 9707752606',
+                  title: '+91 1111111111',
                 ),
                 SizedBox(height: 10.0),
                 Text(
