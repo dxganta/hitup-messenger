@@ -58,7 +58,7 @@ const double perfectWidth = 411.4; // 683.4;
 
 const kHitUpIdTextFieldDecoration = InputDecoration(
   contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-  hintText: 'Search HitUp id',
+  hintText: 'Search Username',
   fillColor: Colors.white,
   filled: true,
   border: OutlineInputBorder(

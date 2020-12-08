@@ -97,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             ListTileProfile(
               iconData: FontAwesomeIcons.solidUser,
-              title: 'HitUp id',
+              title: 'Username',
               subTitle:
                   SharedObjects.prefs.getString(Constants.sessionUsername) ??
                       "",

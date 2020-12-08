@@ -201,7 +201,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
             ),
             ListTileProfile(
               iconData: FontAwesomeIcons.solidUser,
-              title: 'HitUp id',
+              title: "Username",
               subTitle: widget.friend.username,
             ),
             Spacer(

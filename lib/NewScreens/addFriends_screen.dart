@@ -129,7 +129,7 @@ class _AddFriendsScreenState extends State<AddFriendsScreen> {
                   ],
                   validator: (value) {
                     if (value.isEmpty) {
-                      return "Please enter a valid HitUp Id";
+                      return "Please enter a valid username";
                     }
                     return null;
                   },
@@ -223,7 +223,8 @@ class _AddFriendsScreenState extends State<AddFriendsScreen> {
                 SizedBox(height: 6.0),
                 BlocBuilder<AddFriendsBloc, AddFriendsState>(
                   builder: (context, state) {
-                    if (state is AcceptingFriendRequestState || state is DecliningFriendRequestState) {
+                    if (state is AcceptingFriendRequestState ||
+                        state is DecliningFriendRequestState) {
                       return SearchingCard(algo: algo);
                     }
                     return _buildRequestsStreamBuilder(
