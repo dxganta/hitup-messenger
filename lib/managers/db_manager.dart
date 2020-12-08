@@ -244,11 +244,3 @@ class DBManager {
     );
   }
 }
-
-//TODO: check all the credentials, new mqtt server, different firebase database,
-// onesignal credentials
-//TODO: Notifications
-
-//TODO: Change the name of the messenger maybe
-//TODO: Documentation on the github repo
-//TODO: License

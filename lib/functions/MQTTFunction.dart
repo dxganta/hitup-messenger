@@ -19,7 +19,7 @@ class MQTTFunction extends BaseMQTTFunction {
 
     if (_manager == null) {
       _manager = MQTTManager(
-        serverAddress: "13.127.199.45", //"3.7.153.119",
+        serverAddress: "13.127.199.45",
         clientName: loggedInUser,
         context: context,
       );
