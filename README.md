@@ -18,8 +18,8 @@ A Fully Functioning Chat Messenger (like Whatsapp) built using Flutter.
 Authentication is done using Firebase.
 <br>
 
-<img src="https://user-images.githubusercontent.com/47485188/101533784-476ea300-39bc-11eb-99b7-4fe09cf2c29a.png" alt="Screenshot" height="500" width="270"/>
-<img src="https://user-images.githubusercontent.com/47485188/101533474-e0e98500-39bb-11eb-8e67-b50827a8a1e0.png" alt="Screenshot" height="500" width="270"/>
+<img src="https://user-images.githubusercontent.com/47485188/101533784-476ea300-39bc-11eb-99b7-4fe09cf2c29a.png" alt="Screenshot" height="500" width="270"/> <img src="https://user-images.githubusercontent.com/47485188/101533474-e0e98500-39bb-11eb-8e67-b50827a8a1e0.png" alt="Screenshot" height="500" width="270"/>
+
 
 
 ### Sending Images
