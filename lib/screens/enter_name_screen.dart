@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coocoo/NewScreens/update_profile.dart';
+import 'package:coocoo/screens/update_profile.dart';
 import 'package:coocoo/config/Constants.dart';
 import 'package:coocoo/config/Paths.dart';
 import 'package:coocoo/utils/SharedObjects.dart';

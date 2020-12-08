@@ -1,6 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:coocoo/NewScreens/ContactsHelpPage.dart';
-import 'package:coocoo/NewScreens/addFriends_screen.dart';
+import 'package:coocoo/screens/ContactsHelpPage.dart';
+import 'package:coocoo/screens/addFriends_screen.dart';
 import 'package:coocoo/blocs/contacts/contacts_bloc.dart';
 import 'package:coocoo/functions/UserDataFunction.dart';
 import 'package:coocoo/models/MyContact.dart';

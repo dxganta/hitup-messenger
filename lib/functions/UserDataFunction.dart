@@ -196,9 +196,10 @@ class UserDataFunction extends BaseUserDataFunction {
 
   @override
   void sendNotification({String toUid, String title, String content}) async {
+    final String app_id = "98194ba4-9b9a-416b-ab0c-74b851af4f1a";
     var body = jsonEncode({
       "include_external_user_ids": [toUid],
-      "app_id": "98194ba4-9b9a-416b-ab0c-74b851af4f1a",
+      "app_id": app_id,
       "contents": {"en": content},
       "headings": {"en": title},
       "collapse_id": "123",

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coocoo/NewScreens/otp_screen.dart';
+import 'package:coocoo/screens/otp_screen.dart';
 import 'package:coocoo/config/Constants.dart';
 import 'package:coocoo/functions/UserDataFunction.dart';
 import 'package:coocoo/stateProviders/number_state.dart';

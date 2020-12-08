@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coocoo/NewScreens/contacts_screen.dart';
-import 'package:coocoo/NewScreens/profile_screen.dart';
-import 'package:coocoo/NewScreens/settings_screen.dart';
+import 'package:coocoo/screens/contacts_screen.dart';
+import 'package:coocoo/screens/profile_screen.dart';
+import 'package:coocoo/screens/settings_screen.dart';
 import 'package:coocoo/blocs/home/home_bloc.dart';
 import 'package:coocoo/config/Constants.dart';
 import 'package:coocoo/config/Paths.dart';

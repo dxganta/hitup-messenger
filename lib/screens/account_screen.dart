@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coocoo/NewScreens/profile_screen.dart';
+import 'package:coocoo/screens/profile_screen.dart';
 import 'package:coocoo/config/Constants.dart';
 import 'package:coocoo/config/Paths.dart';
 import 'package:coocoo/managers/db_manager.dart';

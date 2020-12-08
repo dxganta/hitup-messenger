@@ -1,5 +1,5 @@
-import 'package:coocoo/NewScreens/account_screen.dart';
-import 'package:coocoo/NewScreens/help_screen.dart';
+import 'package:coocoo/screens/account_screen.dart';
+import 'package:coocoo/screens/help_screen.dart';
 import 'package:coocoo/functions/UserDataFunction.dart';
 import 'package:coocoo/widgets/SettingsTile.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coocoo/NewScreens/enter_name_screen.dart';
+import 'package:coocoo/screens/enter_name_screen.dart';
 import 'package:coocoo/blocs/timer/timer_bloc.dart';
 import 'package:coocoo/config/Constants.dart';
 import 'package:coocoo/functions/MQTTFunction.dart';

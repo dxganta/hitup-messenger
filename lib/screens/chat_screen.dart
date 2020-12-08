@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:coocoo/NewScreens/friend_profile_screen.dart';
+import 'package:coocoo/screens/friend_profile_screen.dart';
 import 'package:coocoo/blocs/chats/chat_bloc.dart';
 import 'package:coocoo/constants.dart';
 import 'package:coocoo/functions/UserDataFunction.dart';

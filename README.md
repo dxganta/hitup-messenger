@@ -21,7 +21,6 @@ Authentication is done using Firebase.
 <img src="https://user-images.githubusercontent.com/47485188/101533784-476ea300-39bc-11eb-99b7-4fe09cf2c29a.png" alt="Screenshot" height="500" width="270"/> <img src="https://user-images.githubusercontent.com/47485188/101533474-e0e98500-39bb-11eb-8e67-b50827a8a1e0.png" alt="Screenshot" height="500" width="270"/>
 
 
-
 ### Sending Images
 Send & Receive Messages (Snapchat style UI).
 <br><br>
@@ -62,10 +61,26 @@ Using OneSignal. User will get realtime push notifications (even when the app is
 ### Invite Friends Feature
 
 
+<br>
+
 ## Other Important Information
 
-## Installation & Setup
-## Authors
-## Motivation behind building this
+## Installation & Setup (Optional)
+1. Firebase
+> To change the firestore database, just replace the google-services.json in android/app to your own google-services.json file from your firebase account.
+2. MQTT Server
+> To transfer messages I am using an MQTT server which I have setup in a EC2 instance on AWS. For details on how to setup your own MQTT server please refer here : [Setup MQTT Server on AWS EC2](http://blog.yatis.io/install-secure-robust-mosquitto-mqtt-broker-aws-ubuntu/). Then change the serverAddress parameter in lib/functions/MQTTFunction.dart to the public address of your EC2 instance.
+
+file connect() function. <br>
+
+3. OneSignal
+> First create an account in [OneSignal](https://onesignal.com/). Then replace the app_id parameter in lib/functions/UserDataFunction.dart sendNotification() function with your own OneSignal app_id.
+
+## Motivation & Contribution
+I want to build this messenger into the biggest open source messenger on the web with all functionalities from the top Messengers like Whatsapp, Telegram, Signal, Snapchat, etc. There a lot of features still to be added like end-to-end encryption, audio messages, audio/video calling, stories, etc. So, we are open to pull requests. Please contribute in any way you can, adding new features, finding or fixing bugs, adding to the documenation, better code commenting, etc. 
+
 ## Contributing
+If you want to contribute to this project other than by coding, please contact me here digantakalita.ai@gmail.com
+
 ## License
+[MIT License](https://github.com/realdiganta/hitup-messenger/blob/master/LICENSE)
