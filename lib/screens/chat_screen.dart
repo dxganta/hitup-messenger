@@ -4,23 +4,19 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coocoo/NewScreens/friend_profile_screen.dart';
 import 'package:coocoo/blocs/chats/chat_bloc.dart';
-import 'package:coocoo/config/Constants.dart';
 import 'package:coocoo/constants.dart';
 import 'package:coocoo/functions/UserDataFunction.dart';
 import 'package:coocoo/models/ChatMessage.dart';
 import 'package:coocoo/models/MyContact.dart';
-import 'package:coocoo/stateProviders/mqtt_state.dart';
 import 'package:coocoo/stateProviders/profilePicUrlState.dart';
 import 'package:coocoo/widgets/ChatItemWidget.dart';
 import 'package:coocoo/widgets/GradientSnackBar.dart';
 import 'package:coocoo/widgets/ImageFullScreenWidget.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_emoji/flutter_emoji.dart' as emj;
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -43,16 +39,15 @@ class _ChatScreenState extends State<ChatScreen> {
     return Expanded(
       child: InkWell(
         onTap: () {
-          print("Calinng send button");
           String tempChatId = widget.toContact.chatId;
           String msgToSend = parser.unemojify(chatTextController.text);
 
           chatBloc.add(SendMessageEvent(context, msgToSend, tempChatId));
-          // userDataFunction.sendNotification(
-          //   toUid: widget.toContact.phoneNumber,
-          //   title: "You have New Messages",
-          //   content: "Click To View",
-          // );
+          userDataFunction.sendNotification(
+            toUid: widget.toContact.phoneNumber,
+            title: "${widget.toContact.name}",
+            content: msgToSend,
+          );
           chatTextController.clear();
         },
         child: Neumorphic(
@@ -123,24 +118,24 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Widget _buildLeftPicture(double algo) {
-    final String myProfileUrl =
-        context.watch<ProfilePicUrlState>().profilePicUrl;
+  Widget _buildContactProfilePicture(double algo) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    ImageFullScreen(url: myProfileUrl, tag: "myProfile")));
+                builder: (context) => ImageFullScreen(
+                    url: widget.toContact.photoUrl,
+                    tag: 'dash${widget.toContact.ind}')));
       },
       child: Hero(
-        tag: 'myProfile',
+        tag: 'dash${widget.toContact.ind}',
         child: Neumorphic(
           style: kCircleNeumorphicStyle,
           child: CircleAvatar(
             radius: algo * 23.5,
-            backgroundImage: CachedNetworkImageProvider(myProfileUrl),
+            backgroundImage:
+                CachedNetworkImageProvider(widget.toContact.photoUrl),
           ),
         ),
       ),
@@ -184,7 +179,7 @@ class _ChatScreenState extends State<ChatScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            _buildLeftPicture(algo),
+            _buildContactProfilePicture(algo),
             SizedBox(width: algo * 13.0),
             GestureDetector(
               onTap: () {
@@ -241,9 +236,12 @@ class _ChatScreenState extends State<ChatScreen> {
               child: BlocListener<ChatBloc, ChatState>(
                 listener: (context, state) {
                   if (state is ReceivedMessageState) {
-                    setState(() {
-                      allMessages = state.chatMessages;
-                    });
+                    if (state.chatMessages[0].chatId ==
+                        widget.toContact.chatId) {
+                      setState(() {
+                        allMessages = state.chatMessages;
+                      });
+                    }
                   }
                   if (state is InitialMessagesLoadedState) {
                     setState(() {

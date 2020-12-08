@@ -15,7 +15,6 @@ import 'package:coocoo/stateProviders/number_state.dart';
 import 'package:coocoo/utils/SharedObjects.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -66,19 +65,10 @@ class UserDataFunction extends BaseUserDataFunction {
         String tempNum = cleanNumber(_contact, countryCode);
         String contactName = _contact.displayName;
 
-        // TODO: here we are making a request to the db for each contact to check if it exists
-        // why not make one request to take all the contacts at once, save it in a list and then
-        // check from that list. Do whichever is faster and more efficient
-
         if (tempNum != null) {
           bool contactExists =
               await DBManager.db.checkIfContactExistsInDb(tempNum);
 
-          //TODO: ALSO need to check if a contact uninstalled the app
-          // then remove him from the local db
-
-          // if contact does not exist in local db but exists in Primary Firestore Users Database
-          // then add him to my contacts db
           if (!contactExists) {
             await addInstalledUserToDBANDSubscribe(
                 context, tempNum, contactName);
@@ -107,12 +97,10 @@ class UserDataFunction extends BaseUserDataFunction {
 
   Future<void> addInstalledUserToDBANDSubscribe(
       BuildContext context, String tempNum, String contactName) async {
-//    print("CONTACT $tempNum DOES NOT EXIST");
     final contactRef = _firestore.collection(Paths.usersPath).document(tempNum);
 
     contactRef.get().then((docSnapshot) async {
-//      print("CHECKING IF $tempNum exists in DB");
-      // if the user has installed coocoo then add him as a contact to my db
+      // if the user has installed the app then add him as a contact to my db
       // else do nothing
       if (docSnapshot.exists) {
         print("USER $tempNum EXISTS IN DB");
