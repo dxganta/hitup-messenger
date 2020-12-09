@@ -95,3 +95,6 @@ If you want to contribute to this project other than by coding, please contact m
 
 ## License
 [MIT License](https://github.com/realdiganta/hitup-messenger/blob/master/LICENSE)
+
+## Supporters
+[![Stargazers repo roster for @realdiganta/hitup-messenger](https://reporoster.com/stars/realdiganta/hitup-messenger)](https://github.com/realdiganta/hitup-messenger/stargazers)
