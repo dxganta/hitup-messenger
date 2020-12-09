@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Messenger',
+        title: 'HitUp Messenger',
         routes: {
           '/homeScreen': (context) => HomeScreen(),
         },

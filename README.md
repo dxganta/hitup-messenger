@@ -38,7 +38,7 @@ Send & Receive Messages (Snapchat style UI).
 On the Contacts Screen, you will get a list of all your phone contacts who are also using the messenger and can chat with them. (Just like sending messages to your contacts in Whatsapp)<br>
 
 <img src="https://user-images.githubusercontent.com/47485188/101533031-5dc82f00-39bb-11eb-8f53-035e3f01112d.png" alt="Screenshot" height="500" width="270"/>
-<br><br>
+<br>
 
 ### Adding contacts using username. Sending & Receiving Friend Requests
 You can also send friend request to someone using their username. On sending friend request, the other user will get a push notification & and a friend request. If he/she accepts the request then you will get an notification & will be able to chat with the user. (Same as the feature in Snapchat) <br><br>
@@ -53,6 +53,11 @@ Using OneSignal. User will get realtime push notifications (even when the app is
 - He/She receives a new message
 - He/She receives a friend request
 - Someone accepts their friend request
+<br>
+
+<img src="https://user-images.githubusercontent.com/47485188/101627059-cce96600-3a43-11eb-83b1-12ab08d20a35.gif" alt="Notification" height="500" width="270"/>
+
+<br><br>
 
 ### Super Fast Messaging using MQTT Protocol (MQTT is used by Facebook Messenger)
 
