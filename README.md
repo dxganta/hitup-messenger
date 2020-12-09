@@ -98,3 +98,4 @@ If you want to contribute to this project other than by coding, please contact m
 
 ## Supporters
 [![Stargazers repo roster for @realdiganta/hitup-messenger](https://reporoster.com/stars/realdiganta/hitup-messenger)](https://github.com/realdiganta/hitup-messenger/stargazers)
+[![Forkers repo roster for @realdiganta/hitup-messenger](https://reporoster.com/forks/realdiganta/hitup-messenger)](https://github.com/realdiganta/hitup-messenger/network/members)
