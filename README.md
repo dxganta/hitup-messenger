@@ -1,5 +1,11 @@
-# HitUp Messenger
-A Fully Functioning Chat Messenger (like Whatsapp) built using Flutter.
+<p align="center"><a href="https://github.com/realdiganta/hitup-messenger"><img src="https://user-images.githubusercontent.com/47485188/101604747-5a6a8d00-3a27-11eb-9c00-8124df47589e.png" alt="Logo" height="80"/></a></p>
+<h1 align="center">HitUp Messenger</h1>
+<p align="center">A Fully Functioning Chat Messenger (like Whatsapp) built using Flutter.</p>
+
+<p align="center">
+	<a href="https://github.com/realdiganta/hitup-messenger"><img src="https://img.shields.io/badge/apk%20size-18%20Mb-blueviolet"/></a> <a href="https://github.com/realdiganta/hitup-messenger"><img src="https://img.shields.io/badge/license-MIT-orange"/></a>
+</p><br/><br/>
+
 
 <img src="https://user-images.githubusercontent.com/47485188/101521998-9c0a2200-39ac-11eb-964a-79d51b4f89c1.png" alt="Screenshot" height="500" width="270"/> <img src="https://user-images.githubusercontent.com/47485188/101522157-dd023680-39ac-11eb-8851-be5b351d3186.png" alt="Screenshot" height="500" width="270"/> <img src="https://user-images.githubusercontent.com/47485188/101532693-e98d8b80-39ba-11eb-804f-78ccad3f1f31.png" alt="Screenshot" height="500" width="270"/>
 
