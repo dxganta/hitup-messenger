@@ -80,9 +80,8 @@ Using OneSignal. User will get realtime push notifications (even when the app is
 1. Firebase
 > To change the firestore database, just replace the google-services.json in android/app to your own google-services.json file from your firebase account.
 2. MQTT Server
-> To transfer messages I am using an MQTT server which I have setup in a EC2 instance on AWS. For details on how to setup your own MQTT server please refer here : [Setup MQTT Server on AWS EC2](http://blog.yatis.io/install-secure-robust-mosquitto-mqtt-broker-aws-ubuntu/). Then change the serverAddress parameter in lib/functions/MQTTFunction.dart to the public address of your EC2 instance.
-
-file connect() function. <br>
+> To transfer messages I am using an MQTT server which I have setup in a EC2 instance on AWS. For details on how to setup your own MQTT server please refer here : [Setup MQTT Server on AWS EC2](http://blog.yatis.io/install-secure-robust-mosquitto-mqtt-broker-aws-ubuntu/). Then change the serverAddress parameter in lib/functions/MQTTFunction.dart file, (connect() function) to the public address of your EC2 instance.
+ <br>
 
 3. OneSignal
 > First create an account in [OneSignal](https://onesignal.com/). Then replace the app_id parameter in lib/functions/UserDataFunction.dart sendNotification() function with your own OneSignal app_id.
