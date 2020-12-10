@@ -14,11 +14,17 @@
 - Flutter for building the Android & IOS App.
 - Firestore database for storing user data.
 - Firebase Storage for storing images.
-- MQTT as messaging protocol hosted in AWS EC2.
+- [MQTT](https://www.hivemq.com/mqtt-essentials/) as messaging protocol hosted in AWS EC2.
 - SQLite for storing contacts & chats in Local Database.
-- OneSignal for Push Notifications.
+- [OneSignal](https://onesignal.com/) for Push Notifications.
 
 ## Features
+
+### Super Fast Messaging using MQTT Protocol (MQTT is used by Facebook Messenger)
+
+Architecture:
+> When you send a message from the app, the message first goes to the MQTT server. Then the MQTT server sends the message directly to the device of the client who is supposed to receive it. When received, the client stores the message in the local sqlite database first then shows it to the chat screen. (Firestore is in no way used to store or send text messages. Firestore is used only to store user & contacts data). To learn more about MQTT please [refer here](https://www.hivemq.com/mqtt-essentials/).
+<br>
 
 ### Phone Number Authentication Sign-in
 Authentication is done using Firebase.
@@ -28,11 +34,14 @@ Authentication is done using Firebase.
 
 
 ### Sending Images
-Send & Receive Messages (Snapchat style UI).
+Send & Receive Images (Snapchat style UI).
+The images are not stored in Gallery. Instead they are stored in the local sqlite database in bytes format. 
 <br><br>
 <img src="https://user-images.githubusercontent.com/47485188/101521696-2f8f2300-39ac-11eb-9f42-5afd2ad0e36a.gif" alt="Screenshot" height="500" width="270"/>
 
 ### Super Fast Loading of Messages (Using SQLite as Local DB to store messages)
+
+Even when the client is offline, he/she can view the messages on opening the chat screen, because the messages are loaded directly from the local sqlite db. And that is the only place where the messages are stored. The MQTT server doesn't store old messages. The MQTT Server only stores the last message sent and then replaces it when a new message is sent.
 
 ### Sending texts to Phone Contacts
 On the Contacts Screen, you will get a list of all your phone contacts who are also using the messenger and can chat with them. (Just like sending messages to your contacts in Whatsapp)<br>
@@ -58,8 +67,6 @@ Using OneSignal. User will get realtime push notifications (even when the app is
 <img src="https://user-images.githubusercontent.com/47485188/101627059-cce96600-3a43-11eb-83b1-12ab08d20a35.gif" alt="Notification" height="500" width="270"/>
 
 <br><br>
-
-### Super Fast Messaging using MQTT Protocol (MQTT is used by Facebook Messenger)
 
 ### Change Profile Photo
 
